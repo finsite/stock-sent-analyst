@@ -1,0 +1,7 @@
+---
+apiVersion: v2
+name: stock-sent-analyst
+description: A Helm chart for stock-sent-analyst
+type: application
+version: 0.1.0
+appVersion: "1.0"

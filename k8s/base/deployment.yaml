@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-sent-analyst
+  labels:
+    app: stock-sent-analyst
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-sent-analyst
+  template:
+    metadata:
+      labels:
+        app: stock-sent-analyst
+    spec:
+      containers:
+      - name: stock-sent-analyst
+        image: stock-sent-analyst:latest
+        ports:
+        - containerPort: 8080
