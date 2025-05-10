@@ -1,4 +1,6 @@
-"""Module to publish processed analysis data to RabbitMQ or AWS SQS."""
+"""
+Module to publish processed analysis data to RabbitMQ or AWS SQS.
+"""
 
 import json
 import os
@@ -12,7 +14,7 @@ from app.logger import setup_logger
 # Initialize logger
 logger = setup_logger(__name__)
 
-# Get queue type from environment
+# Queue type selection
 QUEUE_TYPE = os.getenv("QUEUE_TYPE", "rabbitmq").lower()
 
 # RabbitMQ config
@@ -39,15 +41,11 @@ if QUEUE_TYPE == "sqs":
 
 
 def publish_to_queue(payload: list[dict]) -> None:
-    """Publishes the processed stock analysis results to RabbitMQ or SQS.
+    """
+    Publishes processed analysis results to RabbitMQ or SQS.
 
     Args:
-      payload(list[dict]): A list of dictionaries representing processed results.
-      payload: list[dict]:
-      payload: list[dict]:
-      payload: list[dict]:
-
-    Returns:
+        payload (list[dict]): A list of dictionaries representing processed results.
     """
     for message in payload:
         if QUEUE_TYPE == "rabbitmq":
@@ -59,14 +57,11 @@ def publish_to_queue(payload: list[dict]) -> None:
 
 
 def _send_to_rabbitmq(data: dict) -> None:
-    """Helper to send a message to RabbitMQ.
+    """
+    Helper to send a single message to RabbitMQ.
 
     Args:
-      data: dict:
-      data: dict:
-      data: dict:
-
-    Returns:
+        data (dict): A dictionary representing one message to send.
     """
     try:
         credentials = pika.PlainCredentials(RABBITMQ_USER, RABBITMQ_PASSWORD)
@@ -86,19 +81,17 @@ def _send_to_rabbitmq(data: dict) -> None:
         )
         connection.close()
         logger.info("Published message to RabbitMQ")
+
     except Exception as e:
         logger.error("Failed to publish message to RabbitMQ: %s", e)
 
 
 def _send_to_sqs(data: dict) -> None:
-    """Helper to send a message to AWS SQS.
+    """
+    Helper to send a single message to AWS SQS.
 
     Args:
-      data: dict:
-      data: dict:
-      data: dict:
-
-    Returns:
+        data (dict): A dictionary representing one message to send.
     """
     if not sqs_client or not SQS_QUEUE_URL:
         logger.error("SQS client is not initialized or missing SQS_QUEUE_URL")
@@ -110,5 +103,6 @@ def _send_to_sqs(data: dict) -> None:
             MessageBody=json.dumps(data),
         )
         logger.info("Published message to SQS, MessageId: %s", response["MessageId"])
+
     except Exception as e:
         logger.error("Failed to publish message to SQS: %s", e)

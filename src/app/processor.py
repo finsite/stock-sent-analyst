@@ -1,7 +1,5 @@
-"""Sentiment analysis module with FinBERT as the primary backend and VADER fallback."""
-
 import logging
-from typing import Literal, Optional
+from typing import Optional, Literal, TypedDict
 
 import torch
 import torch.nn.functional as F
@@ -10,10 +8,23 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 logger = logging.getLogger(__name__)
 
-# Initialize VADER
+# ------------------------------------------------------------------------------
+# 🎯 Typed Result Model
+# ------------------------------------------------------------------------------
+
+class SentimentResult(TypedDict):
+    original_text: str
+    sentiment: str
+    confidence: float | None
+    probabilities: dict[str, float] | None
+    engine: str | None
+
+# ------------------------------------------------------------------------------
+# ⚙️ Backend Initialization
+# ------------------------------------------------------------------------------
+
 _vader = SentimentIntensityAnalyzer()
 
-# Load FinBERT model and tokenizer (one-time, can be moved to lazy loading if needed)
 try:
     _finbert_tokenizer = AutoTokenizer.from_pretrained("yiyanghkust/finbert-tone")
     _finbert_model = AutoModelForSequenceClassification.from_pretrained("yiyanghkust/finbert-tone")
@@ -26,19 +37,23 @@ except Exception as e:
     logger.warning(f"FinBERT unavailable, using VADER only: {e}")
     _finbert_available = False
 
+# ------------------------------------------------------------------------------
+# 🧠 Main Sentiment Function
+# ------------------------------------------------------------------------------
 
 def analyze_sentiment(
-    text: str, backend: Optional[Literal["finbert", "vader", "auto"]] = "auto"
-) -> dict:
+    text: str,
+    backend: Optional[Literal["finbert", "vader", "auto"]] = "auto"
+) -> SentimentResult:
     """
     Analyzes sentiment using FinBERT (preferred) or VADER (fallback).
 
     Args:
-        text (str): Input text (news, tweet, etc.)
-        backend (str): 'finbert', 'vader', or 'auto' (default = 'auto')
+        text: The input text for analysis.
+        backend: 'finbert', 'vader', or 'auto' (default).
 
     Returns:
-        dict: Sentiment analysis result including label, scores, and confidence.
+        A SentimentResult dictionary with label, confidence, probabilities, and backend.
     """
     if not text or not text.strip():
         return {
@@ -49,6 +64,7 @@ def analyze_sentiment(
             "engine": None,
         }
 
+    # Try FinBERT if requested or available
     if backend == "finbert" or (backend == "auto" and _finbert_available):
         try:
             inputs = _finbert_tokenizer(text, return_tensors="pt", truncation=True)
@@ -75,7 +91,7 @@ def analyze_sentiment(
         except Exception as e:
             logger.error(f"FinBERT failed: {e} — falling back to VADER")
 
-    # Fallback to VADER
+    # VADER fallback
     try:
         scores = _vader.polarity_scores(text)
         compound = scores["compound"]
@@ -107,3 +123,4 @@ def analyze_sentiment(
             "probabilities": None,
             "engine": "vader",
         }
+

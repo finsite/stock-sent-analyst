@@ -1,7 +1,8 @@
-"""Handles message queue consumption for RabbitMQ and SQS.
+"""
+Handles message queue consumption for RabbitMQ and SQS.
 
-This module receives stock data, applies trend analysis, and sends
-processed results to the output handler.
+This module receives stock data, applies analyst sentiment analysis,
+and sends processed results to the output handler.
 """
 
 import json
@@ -9,21 +10,20 @@ import os
 import time
 
 import boto3
-import pandas as pd  # ✅ Required for DataFrame conversions
 import pika
 from botocore.exceptions import BotoCoreError, NoCredentialsError
 
 from app.logger import setup_logger
 from app.output_handler import send_to_output
-from app.processor import analyze_trend
+from app.processor import analyze_sentiment
 
 logger = setup_logger(__name__)
 
 # Environment variables
 QUEUE_TYPE = os.getenv("QUEUE_TYPE", "rabbitmq").lower()
 RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "localhost")
-RABBITMQ_EXCHANGE = os.getenv("RABBITMQ_EXCHANGE", "stock_analysis")
-RABBITMQ_QUEUE = os.getenv("RABBITMQ_QUEUE", "analysis_trend_queue")
+RABBITMQ_EXCHANGE = os.getenv("RABBITMQ_EXCHANGE", "sentiment.analyst")
+RABBITMQ_QUEUE = os.getenv("RABBITMQ_QUEUE", "analyst_sentiment_queue")
 RABBITMQ_ROUTING_KEY = os.getenv("RABBITMQ_ROUTING_KEY", "#")
 
 SQS_QUEUE_URL = os.getenv("SQS_QUEUE_URL", "")
@@ -41,7 +41,6 @@ if QUEUE_TYPE == "sqs":
 
 
 def connect_to_rabbitmq() -> pika.BlockingConnection:
-    """"""
     retries = 5
     while retries > 0:
         try:
@@ -57,7 +56,6 @@ def connect_to_rabbitmq() -> pika.BlockingConnection:
 
 
 def consume_rabbitmq() -> None:
-    """"""
     connection = connect_to_rabbitmq()
     channel = connection.channel()
 
@@ -68,36 +66,26 @@ def consume_rabbitmq() -> None:
     )
 
     def callback(ch, method, properties, body: bytes) -> None:
-        """
-
-        Args:
-          ch: 
-          method: 
-          properties: 
-          body: bytes:
-          body: bytes:
-          body: bytes: 
-
-        Returns:
-
-        """
         try:
             message = json.loads(body)
             logger.info("Received message: %s", message)
 
-            df = analyze_trend(pd.DataFrame(message["data"]))
+            sentiment_result = analyze_sentiment(message["text"])
+
             result = {
                 "symbol": message.get("symbol"),
                 "timestamp": message.get("timestamp"),
-                "source": "TrendAnalysis",
-                "analysis": df.to_dict(orient="records"),
+                "source": "AnalystSentiment",
+                "sentiment": sentiment_result,
             }
 
             send_to_output(result)
             ch.basic_ack(delivery_tag=method.delivery_tag)
+
         except json.JSONDecodeError:
             logger.error("Invalid JSON: %s", body)
             ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
+
         except Exception as e:
             logger.error("Error processing message: %s", e)
             ch.basic_nack(delivery_tag=method.delivery_tag, requeue=True)
@@ -116,7 +104,6 @@ def consume_rabbitmq() -> None:
 
 
 def consume_sqs() -> None:
-    """"""
     if not sqs_client or not SQS_QUEUE_URL:
         logger.error("SQS not initialized or missing queue URL.")
         return
@@ -136,19 +123,20 @@ def consume_sqs() -> None:
                     body = json.loads(msg["Body"])
                     logger.info("Received SQS message: %s", body)
 
-                    df = analyze_trend(pd.DataFrame(body["data"]))
+                    sentiment_result = analyze_sentiment(body["text"])
+
                     result = {
                         "symbol": body.get("symbol"),
                         "timestamp": body.get("timestamp"),
-                        "source": "TrendAnalysis",
-                        "analysis": df.to_dict(orient="records"),
+                        "source": "AnalystSentiment",
+                        "sentiment": sentiment_result,
                     }
 
                     send_to_output(result)
                     sqs_client.delete_message(
                         QueueUrl=SQS_QUEUE_URL, ReceiptHandle=msg["ReceiptHandle"]
                     )
-                    logger.info("Deleted SQS message: %s", msg["MessageId"])
+                    logger.info("Deleted SQS message: %s", msg.get("MessageId"))
                 except Exception as e:
                     logger.error("Error processing SQS message: %s", e)
         except Exception as e:

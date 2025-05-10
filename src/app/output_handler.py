@@ -1,4 +1,5 @@
-"""Module to handle output of analysis results to a chosen output target.
+"""
+Module to handle output of analysis results to a chosen output target.
 
 This implementation logs the result, prints it to stdout, and sends the
 data to RabbitMQ or SQS.
@@ -15,19 +16,14 @@ logger = setup_logger(__name__)
 
 
 def send_to_output(data: dict[str, Any]) -> None:
-    """Outputs processed analysis results to the configured output system.
+    """
+    Outputs processed analysis results to the configured output system.
 
     This includes logging the result, printing to console, and
     sending to RabbitMQ or SQS.
 
     Args:
-      data(dict[str): The processed analysis result.
-      data: dict[str:
-      Any]:
-      data: dict[str:
-      data: dict[str:
-
-    Returns:
+        data (dict[str, Any]): The processed analysis result.
     """
     try:
         formatted_output: str = json.dumps(data, indent=4)
@@ -41,3 +37,4 @@ def send_to_output(data: dict[str, Any]) -> None:
 
     except Exception as e:
         logger.error("Failed to send output: %s", e)
+
