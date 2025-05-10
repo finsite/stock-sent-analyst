@@ -1,4 +1,8 @@
-## Unreleased
+## v0.1.1 (2025-05-09)
+
+### Fix
+
+- **docs**: Running commitzen to verify changelog generation
 
 ## v0.1.0 (2025-05-09)
 
