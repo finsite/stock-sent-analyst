@@ -1,3 +1,9 @@
+## v0.1.2 (2025-05-10)
+
+### Fix
+
+- **pollers**: Initial repository population of pollers
+
 ## v0.1.1 (2025-05-09)
 
 ### Fix
