@@ -1,3 +1,9 @@
+## v0.1.3 (2025-05-12)
+
+### Fix
+
+- **pollers**: verifying imports work
+
 ## v0.1.2 (2025-05-10)
 
 ### Fix
