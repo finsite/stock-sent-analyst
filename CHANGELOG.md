@@ -1,3 +1,9 @@
+## v0.1.4 (2025-05-14)
+
+### Fix
+
+- **pollers**: Verifying core functionality
+
 ## v0.1.3 (2025-05-12)
 
 ### Fix
