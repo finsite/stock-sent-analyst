@@ -1,6 +1,4 @@
-"""
-Module to publish processed analysis data to RabbitMQ or AWS SQS.
-"""
+"""Module to publish processed analysis data to RabbitMQ or AWS SQS."""
 
 import json
 import os
@@ -41,11 +39,11 @@ if QUEUE_TYPE == "sqs":
 
 
 def publish_to_queue(payload: list[dict]) -> None:
-    """
-    Publishes processed analysis results to RabbitMQ or SQS.
+    """Publishes processed analysis results to RabbitMQ or SQS.
 
     Args:
         payload (list[dict]): A list of dictionaries representing processed results.
+
     """
     for message in payload:
         if QUEUE_TYPE == "rabbitmq":
@@ -57,11 +55,11 @@ def publish_to_queue(payload: list[dict]) -> None:
 
 
 def _send_to_rabbitmq(data: dict) -> None:
-    """
-    Helper to send a single message to RabbitMQ.
+    """Helper to send a single message to RabbitMQ.
 
     Args:
         data (dict): A dictionary representing one message to send.
+
     """
     try:
         credentials = pika.PlainCredentials(RABBITMQ_USER, RABBITMQ_PASSWORD)
@@ -87,11 +85,11 @@ def _send_to_rabbitmq(data: dict) -> None:
 
 
 def _send_to_sqs(data: dict) -> None:
-    """
-    Helper to send a single message to AWS SQS.
+    """Helper to send a single message to AWS SQS.
 
     Args:
         data (dict): A dictionary representing one message to send.
+
     """
     if not sqs_client or not SQS_QUEUE_URL:
         logger.error("SQS client is not initialized or missing SQS_QUEUE_URL")

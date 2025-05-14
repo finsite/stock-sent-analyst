@@ -16,7 +16,7 @@ spec:
         app: stock-sent-analyst
     spec:
       containers:
-      - name: stock-sent-analyst
-        image: stock-sent-analyst:latest
-        ports:
-        - containerPort: 8080
+        - name: stock-sent-analyst
+          image: stock-sent-analyst:latest
+          ports:
+            - containerPort: 8080

@@ -125,13 +125,13 @@
 #             "engine": "vader",
 #         }
 import logging
-from typing import Optional, Literal, TypedDict
+from typing import Literal, Optional, TypedDict
 
 import torch
 import torch.nn.functional as F
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from transformers.models.auto.tokenization_auto import AutoTokenizer
 from transformers.models.auto.modeling_auto import AutoModelForSequenceClassification
+from transformers.models.auto.tokenization_auto import AutoTokenizer
 
 logger = logging.getLogger(__name__)
 
@@ -139,12 +139,14 @@ logger = logging.getLogger(__name__)
 # 🎯 Typed Result Model
 # -------------------------------------------------------------------
 
+
 class SentimentResult(TypedDict):
     original_text: str
     sentiment: str
     confidence: float | None
     probabilities: dict[str, float] | None
     engine: str | None
+
 
 # -------------------------------------------------------------------
 # ⚙️ Backend Initialization
@@ -168,12 +170,11 @@ except Exception as e:
 # 🧠 Main Sentiment Function
 # -------------------------------------------------------------------
 
+
 def analyze_sentiment(
-    text: str,
-    backend: Optional[Literal["finbert", "vader", "auto"]] = "auto"
+    text: str, backend: Literal["finbert", "vader", "auto"] | None = "auto"
 ) -> SentimentResult:
-    """
-    Analyzes sentiment using FinBERT (preferred) or VADER (fallback).
+    """Analyzes sentiment using FinBERT (preferred) or VADER (fallback).
 
     Args:
         text: The input text for analysis.
@@ -181,6 +182,7 @@ def analyze_sentiment(
 
     Returns:
         A SentimentResult dictionary with label, confidence, probabilities, and backend.
+
     """
     if not text or not text.strip():
         return {
@@ -250,4 +252,3 @@ def analyze_sentiment(
             "probabilities": None,
             "engine": "vader",
         }
-
