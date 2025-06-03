@@ -1,3 +1,9 @@
+## v0.2.3 (2025-06-03)
+
+### Fix
+
+- **deps**: standardize termcolor to 2.5.0
+
 ## v0.2.2 (2025-06-03)
 
 ### Fix
