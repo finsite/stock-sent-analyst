@@ -1,3 +1,9 @@
+## v0.2.1 (2025-05-23)
+
+### Fix
+
+- **poller**: integrate updates
+
 ## v0.2.0 (2025-05-23)
 
 ### Feat
