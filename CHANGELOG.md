@@ -1,3 +1,9 @@
+## v0.2.2 (2025-06-03)
+
+### Fix
+
+- **files**: Cleanup redundant files and standardize
+
 ## v0.2.1 (2025-05-23)
 
 ### Fix
