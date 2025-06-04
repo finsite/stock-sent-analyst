@@ -177,7 +177,7 @@ def analyze_sentiment(
     text: str, backend: Literal["finbert", "vader", "auto"] | None = "auto"
 ) -> SentimentResult:
     """Analyzes sentiment using FinBERT (preferred) or VADER (fallback).
-    
+
     Args:
     ----
         text: The input text for analysis.
@@ -195,9 +195,9 @@ def analyze_sentiment(
     :param backend: Literal["finbert":
     :param text: str:
     :param backend: Literal["finbert":
-    :param text: str: 
-    :param backend: Literal["finbert": 
-    :param "vader": 
+    :param text: str:
+    :param backend: Literal["finbert":
+    :param "vader":
     :param "auto"] | None:  (Default value = "auto")
 
     """
