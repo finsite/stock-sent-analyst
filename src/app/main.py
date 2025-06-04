@@ -25,7 +25,6 @@ def main() -> None:
     applies sentiment analysis, and publishes the results to a designated output.
 
 
-    
     """
     logger.info("Starting Sentiment Analysis Service...")
     consume_messages()
