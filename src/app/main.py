@@ -20,17 +20,12 @@ logger = setup_logger(__name__)
 def main() -> None:
     """Starts the Sentiment Analysis Service by consuming stock data messages
     and processing sentiment signals.
-
+    
     This service listens to messages from a queue (RabbitMQ or SQS),
     applies sentiment analysis, and publishes the results to a designated output.
 
-    Parameters
-    ----------
 
-    Returns
-    -------
-
-
+    
     """
     logger.info("Starting Sentiment Analysis Service...")
     consume_messages()
