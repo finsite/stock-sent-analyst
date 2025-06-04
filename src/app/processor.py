@@ -183,10 +183,6 @@ def analyze_sentiment(
         text: The input text for analysis.
         backend: 'finbert', 'vader', or 'auto' (default).
 
-    Returns:
-    -------
-        A SentimentResult dictionary with label, confidence, probabilities, and backend.
-
     Parameters
     ----------
     text :
@@ -201,17 +197,22 @@ def analyze_sentiment(
         str:
     backend :
         Literal["finbert":
-    text: str :
+    text : str :
 
-    backend: Literal["finbert" :
+    backend : Literal["finbert" :
 
     "vader" :
 
     "auto"] | None :
-         (Default value = "auto")
+        (Default value = "auto")
+    text: str :
+
+    backend: Literal["finbert" :
+
 
     Returns
     -------
+
 
     """
     if not text or not text.strip():
