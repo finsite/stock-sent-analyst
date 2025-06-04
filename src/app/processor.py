@@ -193,6 +193,8 @@ def analyze_sentiment(
     :param backend: type backend: Literal["finbert" :
     :param text: str:
     :param backend: Literal["finbert":
+    :param text: str:
+    :param backend: Literal["finbert":
     :param text: str: 
     :param backend: Literal["finbert": 
     :param "vader": 
