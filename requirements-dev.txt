@@ -398,7 +398,7 @@ tomlkit==0.13.2
     #   bump-my-version
     #   commitizen
     #   pylint
-torch==2.7.0
+torch==2.7.1
     # via
     #   -r D:\git\stock-sent-analyst\requirements.in
     #   accelerate
