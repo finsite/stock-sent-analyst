@@ -1,3 +1,9 @@
+## v0.3.1 (2025-06-05)
+
+### Fix
+
+- **deps**: recompile requirements to resolve dependency conflicts
+
 ## v0.3.0 (2025-06-05)
 
 ### Feat
