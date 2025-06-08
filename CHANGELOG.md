@@ -1,12 +1,11 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+<<<<<<< Updated upstream <<<<<<< Updated upstream
+
 ## v0.3.3 (2025-06-08)
 
 ### Fix
 
-- **types**: resolve all Pyright issues and sync output handler signature
-=======
->>>>>>> Stashed changes
+- # **types**: resolve all Pyright issues and sync output handler signature
+  > > > > > > > Stashed changes
 
 ## v0.3.2 (2025-06-07)
 
