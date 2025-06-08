@@ -32,7 +32,9 @@ _vader = SentimentIntensityAnalyzer()
 
 try:
     _finbert_tokenizer = AutoTokenizer.from_pretrained("yiyanghkust/finbert-tone")
-    _finbert_model = AutoModelForSequenceClassification.from_pretrained("yiyanghkust/finbert-tone")
+    _finbert_model = AutoModelForSequenceClassification.from_pretrained(
+        "yiyanghkust/finbert-tone"
+    )
     _finbert_model.eval()
     _finbert_device = "cuda" if torch.cuda.is_available() else "cpu"
     _finbert_model.to(_finbert_device)
