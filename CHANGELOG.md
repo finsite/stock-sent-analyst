@@ -1,5 +1,11 @@
 <<<<<<< Updated upstream <<<<<<< Updated upstream
 
+## v0.3.5 (2025-06-13)
+
+### Refactor
+
+- standardize config, vault client, and test structure across all repos
+
 ## v0.3.4 (2025-06-11)
 
 ### Refactor
