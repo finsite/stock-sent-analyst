@@ -18,3 +18,7 @@ boto3>=1.28.0,<2.0.0
 loguru>=0.7.0
 python-dotenv>=1.0.0
 prometheus_client>=0.17.1
+
+# Security: Fix pip-audit vulnerabilities
+requests>=2.32.4
+urllib3>=2.5.0
