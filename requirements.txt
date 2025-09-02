@@ -135,7 +135,7 @@ tenacity==8.5.0
     # via -r requirements.in
 tokenizers==0.21.2
     # via transformers
-torch==2.7.1
+torch==2.8.0
     # via
     #   -r requirements.in
     #   accelerate
