@@ -351,7 +351,7 @@ regex==2024.11.6
     # via
     #   nltk
     #   transformers
-requests==2.32.4
+requests==2.33.0
     # via
     #   -r D:\git\stock-sent-analyst\requirements.in
     #   -r requirements-dev.in
