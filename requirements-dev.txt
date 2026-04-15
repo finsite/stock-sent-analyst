@@ -418,7 +418,7 @@ tqdm==4.67.1
     #   huggingface-hub
     #   nltk
     #   transformers
-transformers==4.54.0
+transformers==5.0.0
     # via -r D:\git\stock-sent-analyst\requirements.in
 twine==6.1.0
     # via -r requirements-dev.in
