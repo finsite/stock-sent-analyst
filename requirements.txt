@@ -43,7 +43,7 @@ huggingface-hub==0.34.1
     #   accelerate
     #   tokenizers
     #   transformers
-idna==3.10
+idna==3.15
     # via requests
 jinja2==3.1.6
     # via torch
